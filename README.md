@@ -1,3 +1,4 @@
-jboot
+spring boot 简单说明 
 =========
-[http://lenicliu.github.io/jboot/](http://lenicliu.github.io/jboot/)
+[http://zhaopengme.github.io/jboot/](http://zhaopengme.github.io/jboot/)
+ —

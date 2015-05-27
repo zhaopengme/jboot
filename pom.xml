@@ -1,47 +1,107 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.0.RELEASE</version>
-	</parent>
+    <parent>
+        <groupId>com.yeahmobi.facebook.service</groupId>
+        <artifactId>version-control</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-	<groupId>org.lenic</groupId>
-	<artifactId>jboot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>com.yeahmobi.facebook.service</groupId>
+    <artifactId>facebookPmd</artifactId>
+    <version>${facebookPmd-version}</version>
+    <packaging>pom</packaging>
+    <name>facebook pmd all modules</name>
+    <description>The ndp fb pmd all project</description>
 
-	<properties>
-		<java.version>1.7</java.version>
-	</properties>
+    <modules>
+        <module>walle-web</module>
+        <module>common-constant</module>
+        <module>common-bean</module>
+        <module>rdb-api</module>
+        <module>mq-api</module>
+        <module>fbagent-api</module>
+        <module>rdb-services</module>
+        <module>fbagent-services</module>
+        <module>mq-services</module>
+        <module>scheduler</module>
+        <module>walle-java</module>
+    </modules>
 
-	<modules>
-		<module>jboot-customizing-application</module>
-		<module>jboot-minimum-application</module>
-		<module>jboot-properties-application</module>
-		<module>jboot-logging-application</module>
-		<module>jboot-webmvc-application</module>
-		<module>jboot-multiviews-application</module>
-		<module>jboot-servlet-application</module>
-		<module>jboot-jdbc-application</module>
-		<module>jboot-mybatis-application</module>
-		<module>jboot-shiro-application</module>
-		<module>jboot-datarest-application</module>
-		<module>jboot-mybatis-generator-application</module>
-	</modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.yeahmobi.facebook.plugin</groupId>
+            <artifactId>package</artifactId>
+            <version>1.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>false</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludeScope>provided</excludeScope>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <path id="package_classpath">
+                                    <fileset dir="${project.build.directory}/lib/">
+                                        <include name="*.jar"/>
+                                    </fileset>
+                                </path>
+                                <java classname="com.yeahmobi.facebook.plugin.Package" classpathref="package_classpath">
+                                    <arg value="${project.build.directory}"/>
+                                </java>
+                                <java classname="com.yeahmobi.facebook.plugin.TarPackage" classpathref="package_classpath">
+                                    <arg value="${project.build.directory}"/>
+                                    <arg value="${project.artifactId}_${project.version}.tar"/>
+                                </java>
+                                <!--<tar destfile="${project.build.directory}/${project.artifactId}_${project.version}.tar" basedir="${project.build.directory}/deploy" />-->
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-	<repositories>
-		<repository>
-			<id>spring</id>
-			<url>http://repo.spring.io/release</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+        </plugins>
+    </build>
+
 </project>

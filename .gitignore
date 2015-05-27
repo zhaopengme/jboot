@@ -1,15 +1,37 @@
-*.class
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-/.settings/
+# Project ignore files
+/.settings
+/.classpath
 /.project
-/.gitignore
+/.tomcatplugin
+/target
+/creative-java/target
+/.tomcatplugin
+/src/main/webapp/.#webclasspath
+
+.idea
+creative-java.iml
+creative.iml
+released-pom.xml
+
+
+###Node###
+
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+pids
+logs
+results
+
+npm-debug.log
+node_modules
+creative-web/web
+.tmp
+*.sublime-project
+*.sublime-workspace
